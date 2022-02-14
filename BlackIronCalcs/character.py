@@ -46,9 +46,12 @@ class Character(object):
     def isSetup(self):
         return self.stats_set and self.skills_set
 
+    def getJobSkillTotal(self):
+        return self.skill_list.getJobSkillTotal(self.job)
+
     def getJobLevel(self):
         assert(self.isSetup())
-        jobSkillTotal = self.skill_list.getJobSkillTotal(self.job)
+        jobSkillTotal = self.getJobSkillTotal()
         jobLevel = 1
         for (jLvl, sTotal) in JOB_LVL_REQS.items():
             if jobSkillTotal >= sTotal:
@@ -93,5 +96,10 @@ class Character(object):
                 print("o Not Set")
         print()
         print("="*30)
+        jobSkillTotal = self.getJobSkillTotal()
+        nextSkillTotal = "?"
+        if jobLevel < 9:
+            nextSkillTotal = str(JOB_LVL_REQS[jobLevel+1])
+        print("Job skill total: (" + str(jobSkillTotal) + "/" + nextSkillTotal + ")")
 
 
